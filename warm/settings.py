@@ -26,7 +26,10 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+TEMPLATE_DIRS = (
+    #'/Users/macadmin/users/log/templates',
+    BASE_DIR,
+    )
 # Application definition
 
 INSTALLED_APPS = (
