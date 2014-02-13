@@ -51,3 +51,21 @@ def addView(request):
 		return HttpResponse(json.dumps({"errCode": response}), content_type = "application/json")
 	else:
 		return HttpResponse(json.dumps({"errCode": SUCCESS, "count": response}), content_type = "application/json")
+
+
+
+@csrf_exempt        
+def resetFixture(request):
+	response = UsersModel().TESTAPI_resetFixture()
+	if (response == SUCCESS):
+		return HttpResponse(json.dumps({"errCode" : SUCCESS}), content_type = "application/json")
+
+@csrf_exempt        
+def unitTests(request):
+    buffer = StringIO.StringIO()
+    suite = unittest.TestLoader().loadTestsFromTestCase(BackEndTest)
+    result = unittest.TextTestRunner(stream = buffer, verbosity = 2).run(suite)
+
+
+    rv = {"totalTests": result.testsRun, "nrFailed": len(result.failures), "output": buffer.getvalue()}
+    return HttpResponse(json.dumps(rv), content_type = "application/json")
